@@ -1,0 +1,81 @@
+html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Weather App</h1>
+        <div class="weather-info">
+            <div id="location"></div>
+            <div id="temperature"></div>
+            <div id="description"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
+
+css
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 80%;
+    margin: 50px auto;
+}
+
+.weather-info {
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+h1 {
+    text-align: center;
+}
+
+#location {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+#temperature {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+#description {
+    font-size: 18px;
+}
+
+
+javascript
+window.addEventListener('load', () => {
+    const apiKey = '(https://openweathermap.org/)'; // Replace with your API key
+    const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=London&appid=${apiKey}&units=metric`;
+
+    fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+            const location = data.name;
+            const temperature = `${Math.round(data.main.temp)}°C`;
+            const description = data.weather[0].description;
+
+            document.getElementById('location').textContent = location;
+            document.getElementById('temperature').textContent = temperature;
+            document.getElementById('description').textContent = description;
+        })
+        .catch(error => {
+            console.log('Error fetching weather data:', error);
+        });
+});
